@@ -19,7 +19,6 @@
 			</div>
 		</div>
 	</div>	
-	<div class="flash">Hover to flash</div>
 	<script>
 		// Define dimensions and configurations
 		var visualizationElement = d3.select("#visualization");
@@ -30,7 +29,7 @@
 		const svgHeight = visualizationElement._groups[0][0].clientHeight;
 		const arrowSize = 8;
 		const colors = {A: 'red', B: 'gold', C: 'blue',Z0: "darkgrey",Z1: "limegreen",Z2: "magenta"};
-		console.log("w,h",svgWidth,svgHeight);
+
 		// Create SVG and group elements
 		var svg = visualizationElement.append("svg")
 			.attr("width", svgWidth + margin.left + margin.right)
