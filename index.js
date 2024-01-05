@@ -109,7 +109,7 @@ function updateInputFields(phaseDataArray) {
 
   phaseDataArray.forEach(function (phaseData) {
     const phase = phaseData.key;
-    console.log("phase", phase);
+
     const realInput = inputDiv.select(`#${phase}-real`);
     const imaginaryInput = inputDiv.select(`#${phase}-imaginary`);
 

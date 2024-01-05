@@ -1,44 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three-Phase Electrical System Visualization</title>
-    <script src="d3.v7.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Three-Phase Electrical System Visualization</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="d3.v7.min.js"></script>
 </head>
+
 <body>
+	<p class="pageTitle">Impedance relationship to Voltage and Current (p.u.)</p>
 	<div id="main-container">
 		<div id="first-row">
-			<div id="input-fields1">
-			</div>
-			<div id="visualization">
-			</div>
-			<div id="input-fields">
-			</div>
+			<div id="input-fields1"></div>
+			<div id="visualization"></div>
+			<div id="input-fields"></div>
 		</div>
-	</div>	
+	</div>
 	<script>
 		// Define dimensions and configurations
 		var visualizationElement = d3.select("#visualization");
 
-		const margin = {top: 20, right: 20, bottom: 20, left: 20};
+		const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 		const boundingRect = document.getElementById("visualization");
-		const svgWidth = visualizationElement._groups[0][0].clientWidth;
-		const svgHeight = visualizationElement._groups[0][0].clientHeight;
+		const svgWidth = visualizationElement._groups[0][0].clientWidth - margin.left - margin.right;
+		const svgHeight = visualizationElement._groups[0][0].clientHeight - margin.top - margin.bottom;
 		const arrowSize = 8;
-		const colors = {A: 'red', B: 'gold', C: 'blue',Z0: "darkgrey",Z1: "limegreen",Z2: "magenta"};
+		const colors = { A: 'red', B: 'gold', C: 'blue', Z0: "darkgrey", Z1: "limegreen", Z2: "magenta" };
 
 		// Create SVG and group elements
 		var svg = visualizationElement.append("svg")
 			.attr("width", svgWidth + margin.left + margin.right)
-			.attr("height", svgHeight + margin.top + margin.bottom)
-			.attr("id","svgMainVisual")
+			.attr("height", svgWidth + margin.top + margin.bottom)
+			.attr("id", "gMainVisual")
 			.style("overflow", "visible");
 
 		const mainGroup = svg.append('g')
-			.attr('transform', `translate(${margin.left}, ${margin.top})`)
-			.attr("id","gMainVisual");
+			.attr('transform', `translate(${margin.left / 2}, ${margin.top})`)
+			.attr("id", "gMainVisual")
+			.style("border", "1px solid black");
+		const border = svg.append('rect')
+			.attr('x', margin.left / 2)
+			.attr('y', margin.top)
+			.attr('height', svgWidth + margin.left + margin.right)
+			.attr('width', svgWidth + margin.left + margin.right)
+			.style('stroke', 'black')
+			.style('fill', 'none')
+			.style('stroke-width', '1px');
+		svg.append("defs").selectAll("marker")
+			.data("markc-arc")
+			.enter().append("marker")
+			.attr("id", `markc-arc`)
+			.attr("viewBox", "0 -5 10 10")
+			.attr("refX", 5)
+			.attr("refY", 0)
+			.attr("markerWidth", arrowSize / 1.5)
+			.attr("markerHeight", arrowSize)
+			.attr("orient", "auto")
+			.append("path")
+			.attr("d", "M0,-5L10,0L0,5")
+			.style("fill", "darkgrey");
+
+		svg.append("path").attr("d", `M ${svgWidth},${margin.top + 45} A 15,15 0 1 0 ${svgWidth - 15},${margin.top + 30}`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none").style("marker-end", "url(#markc-arc)");
+		svg.append("path").attr("d", `m ${svgWidth},${margin.top + 25} 0,10`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none");
+		svg.append("path").attr("d", `m ${svgWidth - 5},${margin.top + 30} 10,0`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none");
+
 
 		// Define the aspect ratio of the SVG element
 		const aspectRatio = 1;
@@ -48,44 +75,45 @@
 
 
 		// Create scales
-		var xScale = d3.scaleLinear().domain([-3, 3]).range([0, svgWidth / aspectRatio ]);
-		var yScale = d3.scaleLinear().domain([-3, 3]).range([svgWidth ,0]);
+		var xScale = d3.scaleLinear().domain([-3, 3]).range([0, svgWidth / aspectRatio]);
+		var yScale = d3.scaleLinear().domain([-3, 3]).range([svgWidth, 0]);
 
 		// Add axes and gridlines
 		var xAxis = d3.axisBottom(xScale);
 		var yAxis = d3.axisLeft(yScale);
 
 		mainGroup.append("g")
-		.attr("transform", "translate(" + margin.left + "," + svgWidth/2 + ")")
-		.call(xAxis);
+			.attr("transform", "translate(" + margin.left + "," + svgWidth / 2 + ")")
+			.call(xAxis);
 
 		mainGroup.append("g")
-		.attr("transform", "translate(" + svgWidth / (2*aspectRatio) + "," + margin.top + ")")
-		.call(yAxis);		
+			.attr("transform", "translate(" + svgWidth / (2 * aspectRatio) + "," + margin.top + ")")
+			.call(yAxis);
 
 		// Create vector data
 		var vectorsData = {
-			VA: {x: 2, y: 0},
-			VB: {x: -1, y: -Math.sqrt(3)},
-			VC: {x: -1, y: +Math.sqrt(3)},
-			IA: {x: 1, y: 0},
-			IB: {x: -0.5, y: -0.8660254037844386},
-			IC: {x: -0.5, y: +0.8660254037844386},
-			ZA: {x: 2, y: 0},
-			ZB: {x: 2, y: 0},
-			ZC: {x: 2, y:0},
-			I0: {x: 0, y: 0},
-			I1: {x: 1, y: 0},
-			I2: {x: 0, y: 0},
-			V0: {x: 0, y: 0},
-			V1: {x: 3, y: 0},
-			V2: {x: 3, y: 0},
-			Z0: {x: 0, y: 0},
-			Z1: {x: 3, y: 0},
-			Z2: {x: 0, y: 0},
+			VA: { x: 2, y: 0 },
+			VB: { x: -1, y: -Math.sqrt(3) },
+			VC: { x: -1, y: +Math.sqrt(3) },
+			IA: { x: 1, y: 0 },
+			IB: { x: -0.5, y: -0.8660254037844386 },
+			IC: { x: -0.5, y: +0.8660254037844386 },
+			ZA: { x: 2, y: 0 },
+			ZB: { x: 2, y: 0 },
+			ZC: { x: 2, y: 0 },
+			I0: { x: 0, y: 0 },
+			I1: { x: 1, y: 0 },
+			I2: { x: 0, y: 0 },
+			V0: { x: 0, y: 0 },
+			V1: { x: 3, y: 0 },
+			V2: { x: 3, y: 0 },
+			Z0: { x: 0, y: 0 },
+			Z1: { x: 3, y: 0 },
+			Z2: { x: 0, y: 0 },
 		};
 
 	</script>
-    <script type="module" src="index.js"></script>
+	<script type="module" src="index.js"></script>
 </body>
+
 </html>
