@@ -10,8 +10,8 @@
 </head>
 
 <body>
-	<p class="pageTitle">Impedance relationship to Voltage and Current (p.u.)</p>
 	<div id="main-container">
+		<p class="pageTitle">Impedance relationship to Voltage and Current (p.u.)</p>
 		<div id="first-row">
 			<div id="input-fields1"></div>
 			<div id="visualization"></div>
@@ -26,6 +26,7 @@
 		const boundingRect = document.getElementById("visualization");
 		const svgWidth = visualizationElement._groups[0][0].clientWidth - margin.left - margin.right;
 		const svgHeight = visualizationElement._groups[0][0].clientHeight - margin.top - margin.bottom;
+		console.log("show values", svgWidth, svgHeight, "min", Math.min(svgWidth, svgHeight));
 		const arrowSize = 8;
 		const colors = { A: 'red', B: 'gold', C: 'blue', Z0: "darkgrey", Z1: "limegreen", Z2: "magenta" };
 
@@ -37,14 +38,15 @@
 			.style("overflow", "visible");
 
 		const mainGroup = svg.append('g')
-			.attr('transform', `translate(${margin.left / 2}, ${margin.top})`)
+			.attr('transform', `translate(${margin.left / 2}, ${margin.top / 2})`)
 			.attr("id", "gMainVisual")
 			.style("border", "1px solid black");
 		const border = svg.append('rect')
-			.attr('x', margin.left / 2)
-			.attr('y', margin.top)
-			.attr('height', svgWidth + margin.left + margin.right)
+			.attr('x', 0)
+			.attr('y', 0)
+			.attr('height', svgWidth + margin.top + margin.bottom)
 			.attr('width', svgWidth + margin.left + margin.right)
+			.attr('transform', `translate(${margin.left / 2}, ${margin.top / 2})`)
 			.style('stroke', 'black')
 			.style('fill', 'none')
 			.style('stroke-width', '1px');
@@ -62,20 +64,12 @@
 			.attr("d", "M0,-5L10,0L0,5")
 			.style("fill", "darkgrey");
 
-		svg.append("path").attr("d", `M ${svgWidth},${margin.top + 45} A 15,15 0 1 0 ${svgWidth - 15},${margin.top + 30}`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none").style("marker-end", "url(#markc-arc)");
+		svg.append("path").attr("d", `M ${svgWidth},${margin.top + 45} A 15,15 0 1 1 ${svgWidth - 15},${margin.top + 30}`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none").style("marker-end", "url(#markc-arc)");
 		svg.append("path").attr("d", `m ${svgWidth},${margin.top + 25} 0,10`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none");
 		svg.append("path").attr("d", `m ${svgWidth - 5},${margin.top + 30} 10,0`).attr("stroke", "darkgrey").attr("stroke-width", 2).attr("fill", "none");
 
-
-		// Define the aspect ratio of the SVG element
-		const aspectRatio = 1;
-
-		// Set the viewBox attribute to maintain aspect ratio
-		// svg.attr('viewBox', `0 0 ${svgWidth} ${svgWidth / aspectRatio}`);
-
-
 		// Create scales
-		var xScale = d3.scaleLinear().domain([-3, 3]).range([0, svgWidth / aspectRatio]);
+		var xScale = d3.scaleLinear().domain([-3, 3]).range([0, svgWidth]);
 		var yScale = d3.scaleLinear().domain([-3, 3]).range([svgWidth, 0]);
 
 		// Add axes and gridlines
@@ -87,7 +81,7 @@
 			.call(xAxis);
 
 		mainGroup.append("g")
-			.attr("transform", "translate(" + svgWidth / (2 * aspectRatio) + "," + margin.top + ")")
+			.attr("transform", "translate(" + svgWidth / 2 + "," + margin.top + ")")
 			.call(yAxis);
 
 		// Create vector data
