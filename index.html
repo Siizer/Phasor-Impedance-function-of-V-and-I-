@@ -13,7 +13,6 @@
 			<div id="input-fields1">
 			</div>
 			<div id="visualization">
-				<!-- Place your SVG here -->
 			</div>
 			<div id="input-fields">
 			</div>
@@ -24,7 +23,7 @@
 		var visualizationElement = d3.select("#visualization");
 
 		const margin = {top: 20, right: 20, bottom: 20, left: 20};
-		const boundingRect = document.getElementsByTagName("body");
+		const boundingRect = document.getElementsById("visualization");
 		const svgWidth = visualizationElement._groups[0][0].clientWidth;
 		const svgHeight = visualizationElement._groups[0][0].clientHeight;
 		const arrowSize = 8;
