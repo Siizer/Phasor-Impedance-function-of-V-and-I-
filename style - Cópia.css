@@ -1,0 +1,1056 @@
+:root {
+  /* Color Variables */
+  --Aphase: hsl(0, 100%, 50%);
+  --Bphase: hsl(43, 100%, 50%);
+  --Cphase: hsl(240, 100%, 50%);
+  --lineGuide: hsl(0, 6%, 25%);
+  --negative: hsl(300, 100%, 50%);
+  --positive: hsl(120, 100%, 50%);
+  --zero: hsl(0, 0%, 50%);
+
+  --colorText: #322c2d;
+  --color-bg: #92978a;
+
+  --borderFrames: steelblue;
+
+  --thickness_abc: 0.25em;
+}
+
+* {
+  box-sizing: border-box;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color-scheme: dark mode;
+}
+
+button{
+  position: relative;
+	background:none;
+  outline: none;
+  border: solid 1px var(--colorText);
+  border-radius: 0.25em;
+  font-size: 1rem;
+	color: var(--colorText);
+  font-family: "Monorama";
+  padding: 0.25em 0.75em;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+button span{
+ padding-right: 0.5em;
+}
+
+button:after{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background:var(--colorText);
+  z-index: -1;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+	color: var(--color-bg);
+}
+
+button:hover:after{
+  width: 100%;
+}
+
+img {
+  max-width: 100%;              /* [1] */ 
+  height: auto;                 /* [1] */ 
+  vertical-align: middle;       /* [2] */ 
+  font-style: italic;           /* [3] */ 
+  background-repeat: no-repeat; /* [4] */ 
+  background-size: cover;       /* [4] */ 
+  shape-margin: 0.75rem;        /* [5] */ 
+}
+
+:popover-open {
+  width: 300px;
+  height: 200px;
+  position: absolute;
+  top:0;
+  left:0;
+
+  margin: 0;
+}
+
+::-webkit-backdrop {
+  background-color: rgba(0,0,0,0.5);
+}
+
+::backdrop {
+  background-color: rgba(0,0,0,0.5);
+}
+
+
+#svg3 [popover] {
+  border: 1px solid black;
+  width: 120px;
+  inset: unset;
+}
+
+#mainpopover {
+  left: 7px;
+  top: 38px;
+}
+
+#subpopover {
+  left: 120px;
+  top: 86px;
+}
+
+.listcontainer,
+.subcontainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+a {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-decoration: none;
+  outline: none;
+  text-align: center;
+  line-height: 3;
+  color: black;
+}
+
+a:link,
+a:visited {
+  /* background: palegoldenrod; */
+  color: black;
+}
+
+a:hover,
+a:focus {
+  background: rgb(197, 169, 118);
+}
+
+a:active {
+  background: darkred;
+  color: white;
+}
+
+form {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 2fr 3fr 1fr;
+  grid-template-columns: 2fr 3fr 1fr;
+  font-size: 1 cqi;
+}
+
+.form-container {
+  width:100%;
+  display: -ms-grid;
+  display: grid;
+}
+
+.form-container label {
+  display: block; /* Ensure labels are above inputs */
+}
+
+.starterContent{
+color:white;
+}
+
+label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 5px;
+}
+
+input[type="range"], input[type="checkbox"] {
+  width: 50%; 
+}
+
+
+#svg1,
+#svg2,
+#svg3 {
+  position: relative;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex;
+  flex:1;
+  -webkit-box-pack:center;
+      -ms-flex-pack:center;
+          justify-content:center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 33%;
+  border: 1px solid var(--borderFrames);
+}
+
+table {
+  border: 1px solid #e7e3e7;
+  /* display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  line-height: normal;
+  font-weight: normal;
+  font-size: medium;
+  font-style: normal;
+  color: -internal-quirk-inherit;
+  text-align: start;
+  border-spacing: 2px;
+  border-color: gray;
+  white-space: normal;
+  font-variant: normal; */
+}
+
+thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+td {
+  display: table-cell;
+  
+}
+
+table td {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: #e7e3e7;
+
+  padding: 2px 9px 2px 0;
+  vertical-align: middle;
+}
+
+#labels{
+  display: -ms-grid;
+  display: grid;
+    -ms-grid-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  width:100%;
+  font-size: 1 cqi;;
+}
+
+
+#container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+}
+
+.column-1 {
+  width: 66.66%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+}
+
+.column-2 {
+  width: 33.33%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+
+.row {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  /* background-color: #e0e0e0; */
+  margin: 5px 0 5px 0;
+  padding: 10px 0 10px 0;
+  width: 100%;
+  height: calc(33% - 10px - 5px);
+  text-align: center;
+}
+
+.row-large {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  /* margin: 5px 0 5px 0;
+  padding: 10px 0 10px 0; */
+  height: 66.66%;
+  text-align: center;
+  border:1px solid var(--borderFrames)
+}
+
+#viz_polar{
+  position : relative;
+  width: 100%;
+  height:100%;
+}
+
+.row-small {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  height: 33%.33;
+  text-align: center;
+  border:1px solid var(--borderFrames)
+}
+
+svg {
+  overflow:visible;
+}
+
+
+.vertical-legend {
+  font-size: 1rem;
+  -webkit-writing-mode: tb-rl;
+      -ms-writing-mode: tb-rl;
+          writing-mode: tb-rl; /* For vertical text */
+  fill: black;
+}
+
+.horizontal-legend {
+  font-size: 1rem;
+  fill: black;
+}
+
+
+.mylineIA,
+.mylineVA {
+  stroke: var(--Aphase);
+}
+.mylineIB,
+.mylineVB {
+  stroke: var(--Bphase);
+}
+.mylineIC,
+.mylineVC {
+  stroke: var(--Cphase);
+}
+
+.mylineI_O {
+  fill:steelblue;
+  stroke: steelblue;
+}
+
+#tempLine, #tempLineStart, #tempLineMove, #runningLine {
+stroke: var(--lineGuide);
+stroke-width: 1px;
+}
+
+.guideLine {
+stroke: var(--lineGuide);
+stroke-width: 1px;
+
+}
+
+
+.circle {
+  fill: none;
+  stroke: rgba(255, 255, 225, 0);
+  stroke-width: 1;
+}
+circle.vectora,
+circle.vectorb,
+circle.vectorc {
+  fill: rgba(255, 255, 255, 0.1);
+  stroke: #ffffff;
+  stroke-width: 0.2;
+}
+
+.axis circle {
+  fill: none;
+  stroke: #777;
+  stroke-dasharray: 1, 4;
+}
+.axis :last-of-type circle {
+  stroke: #333;
+  stroke-dasharray: none;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+  stroke: #777;
+}
+.x.axis line {
+  stroke: #000;
+}
+.x.axis .minor {
+  stroke-opacity: 0.5;
+}
+.x.axis path {
+  fill: none;
+  stroke: #000;
+}
+.y.axis line,
+.y.axis path {
+  fill: none;
+  stroke: #000;
+}
+
+/* .texta,
+.textai {
+  fill: var(--Aphase);
+  font-size: 12px;
+  font-weight: bold;
+}
+.textb,
+.textbi {
+  fill: var(--Bphase);
+  font-size: 12px;
+  font-weight: bold;
+}
+.textc,
+.textci {
+  fill: var(--Cphase);
+  font-size: 12px;
+  font-weight: bold;
+} */
+
+polyline.vectora,
+polyline.vectorai {
+  stroke: var(--Aphase);
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+polyline.vectorb,
+polyline.vectorbi {
+  stroke: var(--Bphase);
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+polyline.vectorc,
+polyline.vectorci {
+  stroke: var(--Cphase);
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+
+polyline.vector2,
+polyline.vector2i {
+  stroke: var(--negative);
+  stroke-width: 1.5;
+  stroke-dasharray: 3;
+}
+polyline.vector1,
+polyline.vector1i {
+  stroke: var(--negative);
+  stroke-width: 1.5;
+  stroke-dasharray: 3;
+}
+polyline.vector0,
+polyline.vector0i {
+  stroke: var(--darkgrey);
+  stroke-width: 1.5;
+  stroke-dasharray: 3;
+}
+marker {
+  fill: black;
+}
+
+
+#marka,
+#arrow-marka,
+#markab,
+#markai,
+#markabi,
+#markaz,
+#markabz,
+#markaz_prime {
+  fill: var(--Aphase);
+}
+
+#markb,
+#markbc,
+#markbi,
+#markbci,
+#markbz,
+#markbcz,
+#markbz_prime {
+  fill: var(--Bphase);
+}
+
+#markc,
+#markca,
+#markci,
+#markcai,
+#markcz,
+#markcaz,
+#markcz_prime {
+  fill: var(--Cphase);
+}
+
+#mark2,
+#mark2i,
+#mark2bis,
+#mark2bisi {
+  fill: var(--negative);
+}
+
+#mark1,
+#mark1i,
+#mark1bis,
+#mark1bisi {
+  fill: var(--positive);
+}
+
+#mark0,
+#mark0i,
+#mark0bis,
+#mark0bisi,
+#markKN,
+#markc-arc {
+  fill: var(--zero);
+}
+
+
+#markPol {
+  stroke: SteelBlue;
+  stroke-width: 2px;
+}
+
+.row {
+  margin-bottom: 20px;
+}
+.row .row {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: white;
+  background-color: rgba(255,255,255,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+
+
+.circle {
+  fill: "none";
+  stroke: rgba(255, 255, 225, 0);
+  stroke-width: 2px;
+}
+
+circle.vectora,
+circle.vectorab,
+circle.vector_KN {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.01);
+  stroke-width: 0.2px;
+}
+
+circle.vectorb,
+circle.vectorbc {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.01);
+  stroke-width: 0.2px;
+}
+
+circle.vectorc,
+circle.vectorca {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.01);
+  stroke-width: 0.2px;
+}
+
+circle.vectora_I,
+circle.vectorab_I {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.01);
+  stroke-width: 0.2px;
+}
+
+circle.vectorb_I,
+circle.vectorbc_I {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.01);
+  stroke-width: 0.2px;
+}
+
+circle.vectorc_I,
+circle.vectorc_I {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(255, 255, 255, 0.01);
+  stroke-width: 0.2px;
+}
+
+circle.vector_Z_Line,
+circle.vector_Z2_Line,
+circle.vector_Z3_Line {
+  fill: rgba(255, 255, 255, 0.01);
+  stroke: rgba(0, 0, 0, 1);
+  stroke-width: 0.2px;
+}
+
+circle.intersect {
+  fill: rgba(0, 255, 0, 0.1);
+  stroke: rgba(0, 0, 0, 1);
+  stroke-width: 0.2px;
+}
+
+circle.intersect2 {
+  fill: rgba(0, 0, 255, 0.1);
+  stroke: rgba(0, 0, 0, 1);
+  stroke-width: 0.2px;
+}
+
+circle.intersect3 {
+  fill: rgba(255, 0, 0, 0.1);
+  stroke: rgba(0, 0, 0, 1);
+  stroke-width: 0.2px;
+}
+
+text {
+  text-anchor: middle;
+}
+
+text.texta,
+text.textaLegend,
+text.textai,
+text.textaiLegend,
+text.texta_I,
+text.texta_Z,
+text.textab_Z {
+  fill: var(--Aphase);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+text.textb,
+text.textbLegend,
+text.textbi,
+text.textbiLegend,
+text.textb_I,
+text.textb_Z,
+text.textbc_Z {
+  fill: var(--Bphase);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+text.textc,
+text.textcLegend,
+text.textci,
+text.textciLegend,
+text.textc_I,
+text.textc_Z,
+text.textca_Z {
+  fill: var(--Cphase);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+polyline {
+  stroke-width: 5px;
+}
+
+polyline.vectorab,
+polyline.vectora_I,
+polyline.vectorab_I,
+polyline.vectora_Z,
+polyline.vectorab_Z {
+  stroke: var(--Aphase);
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+
+polyline.vectora_Z_prime {
+  stroke: orange;
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+
+polyline.vectorbc,
+polyline.vectorb_I,
+polyline.vectorbc_I,
+polyline.vectorb_Z,
+polyline.vectorbc_Z,
+polyline.vectorb_Z_prime {
+  stroke: darkgoldenrod;
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+
+
+polyline.vectorca,
+polyline.vectorc_I,
+polyline.vectorca_I,
+polyline.vectorc_Z,
+polyline.vectorca_Z,
+polyline.vectorc_Z_prime {
+  stroke: var(--Cphase);
+  stroke-width: var(--thickness_abc);
+  stroke-linecap: round;
+}
+
+polyline.vector2,
+polyline.vector2_I {
+  stroke: var(--negative);
+  stroke-width: var(--thickness_abc);
+  stroke-dasharray: 3;
+}
+
+polyline.vector2bis,
+polyline.vector2bis_I {
+  stroke: var(--negative);
+  stroke-width: 4px;
+  stroke-dasharray: 3;
+}
+
+polyline.vector1,
+polyline.vector1_I {
+  stroke: limegreen;
+  stroke-width: 4px;
+  stroke-dasharray: 3;
+}
+
+polyline.vector1bis,
+polyline.vector1bis_I {
+  stroke: limegreen;
+  stroke-width: 4px;
+  stroke-dasharray: 3
+}
+
+polyline.vector0,
+polyline.vector0_I {
+  stroke: darkgrey;
+  stroke-width: 4px;
+  stroke-dasharray: 3;
+}
+
+polyline.vector0bis,
+polyline.vector0bis_I {
+  stroke: darkgrey;
+  stroke-width: 4px;
+  stroke-dasharray: 3;
+}
+
+polyline.vector_KN {
+  stroke: darkgrey;
+  stroke-width: 4px;
+}
+
+polyline.vector_Z_Line {
+  stroke: SteelBlue;
+  stroke-width: 2px;
+}
+
+
+.ui-tabs-vertical {
+  width: 40em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav {
+  padding: 0;
+  float: left;
+  width: 19.8575em;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li {
+  clear: left;
+  width: 100%;
+  border-bottom-width: 0;
+  border-right-width: 0;
+  margin: 0;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li a {
+  display: block;
+}
+
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+  padding-bottom: 0;
+  padding-right: 0;
+  border-right-width: 0;
+  border-right-width: 0;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+  padding: 0;
+  float: right;
+  width: 20em;
+}
+
+#toggleon,
+#toggleon_I {
+  width: 10px;
+  height: 13px;
+  padding-right: 3px;
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 1px;
+  background-color: rgba(1, 6, 66, 1);
+  text-align: left;
+}
+
+label.btn>input[type='radio'] {
+  display: none;
+}
+
+.accordion-body {
+  position: absolute;
+  top:0;
+  left:0;
+  display: -ms-grid;
+  display: grid; 
+  -ms-grid-rows: 0fr; 
+  grid-template-rows: 0fr;
+  -webkit-transition: 250ms grid-template-rows ease;
+  -o-transition: 250ms grid-template-rows ease;
+  transition: 250ms grid-template-rows ease;
+  transition: 250ms grid-template-rows ease, 250ms -ms-grid-rows ease;
+}
+
+.accordion:hover .accordion-body {
+  -ms-grid-rows: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.accordion-body > div {
+  overflow: hidden;
+}
+
+
+.slide:first-of-type {
+  display: block;
+}
+
+section > .slide{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+}
+.slide {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: beige;
+  /* Make the slides relative */
+}
+
+.slide:target {
+  display: block;
+}
+
+
+.slideTitle{
+  z-index: 10;
+  display: grid;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10%;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: #ccc;
+  text-align:end;
+  align-items: center;
+  color: black;
+}
+
+.content {
+  position:relative;
+flex:10;
+  display:flex;
+  width: 100%;
+  height:100%;
+  justify-content: center;
+  align-items: center;
+  background-color: beige;
+}
+
+.page-number {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+
+.nav .divNavigator {
+  width: 100%;
+}
+.divNavigator{
+  flex: 1;
+  display:flex;
+  height: 100%;
+  width:2rem;
+  font-size: 2em;
+  font-weight: bold; ;
+  justify-content: center;
+  align-items: center;
+}
+/* .nav a {
+  display:grid ;
+  height: 100%;
+  width:10px;
+  font-size: 2em;
+  font-weight: bold;;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.nav a:hover {
+  color: #cccccc;
+} */
+
+#resultContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 10px;
+  background-color: aliceblue;
+}
+
+#resultText {
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  font-size: 1cqi;
+  text-wrap: wrap;
+  top: 100%;
+  left: 100%;
+  background-color: aqua;
+  visibility: hidden;
+}
+
+#x {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 400px);
+  background-color: red;
+  font-weight: bold;
+  color: aliceblue;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+#svg-container1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+#svg-container1CircleRed {
+  cursor: pointer;
+}
+
+
+
+.sleigh {
+  offset-path: path("M-200 80 L -90 80 Q 60 80 60 -10 A 50 50 0 0 0 -60 -10 Q -60 80 90 80 L 200 80"
+      );
+  animation: roller-coaster 6000ms infinite linear;
+}
+
+@keyframes roller-coaster {
+  0% {
+      offset-distance: 0%;
+  }
+
+  100% {
+      offset-distance: 100%;
+  }
+}
+
+.pageTitle{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#main-container {
+  height: 100vh;
+  border:1px solid black;
+}
+
+  #first-row {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 32px;
+    width: 1184px;
+    margin: 0 auto; /* Center the grid */
+  }
+
+  #input-fields1 {
+    grid-column: span 3; /* Take up 3 of 12 columns */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #visualization {
+    grid-column: span 6; /* Take up 6 of 12 columns */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #input-fields {
+    grid-column: span 3; /* Take up 3 of 12 columns */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
