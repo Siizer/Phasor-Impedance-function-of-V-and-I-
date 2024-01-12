@@ -5,6 +5,8 @@ import * as I_ from "./Inputs.mjs";
 
 M_.Vmarker(svg, Object.keys(colors), arrowSize, colors);
 
+
+
 const impedanceData = calculateImpedances(vectorsData);
 
 var inputDiv1 = I_.Inputs(
@@ -55,31 +57,68 @@ updateInputFields([
 
 // Define input change function
 function onInputChanged(event, d) {
-  const phase = d.key;
-  const inputType = event.target.id.split("-")[1];
-  const newValue = parseFloat(event.target.value);
 
+
+  let inputType;
+  const phase = d.key;
+  if (event.target.id.includes("-")){ inputType = event.target.id.split("-")[1];} else {inputType = event.target.id;}; 
+  const newValue = parseFloat(event.target.value);
   if (inputType === "real") {
     vectorsData[phase].x = newValue;
   } else if (inputType === "imaginary") {
     vectorsData[phase].y = newValue;
-  }
+  } else {vectorsData[phase] = newValue;}
+  
   updateMainVisualization(phase);
 
   updateImpedances(vectorsData, d.key);
   vectorsData[d.key].x = d.value.x;
   vectorsData[d.key].y = d.value.y;
-  const z = C_.complexDivision(
-    vectorsData["V" + d.key.charAt(1)],
-    vectorsData["I" + d.key.charAt(1)]
-  );
- 
-  d3.select("#Z" + d.key.charAt(1) + "-real").property("value", z.x);
-  d3.select("#Z" + d.key.charAt(1) + "-imaginary").property("value", z.y);
-  vectorsData["Z" + d.key.charAt(1)].x = z.x;
-  vectorsData["Z" + d.key.charAt(1)].y = z.y;
-  calculateSequenceImpedances(vectorsData);
-
+  if (["A", "B", "C"].includes(d.key.charAt(1))){ 
+    const z = C_.complexDivision(
+      vectorsData["V" + d.key.charAt(1)],
+      vectorsData["I" + d.key.charAt(1)]
+    );
+  
+    
+    d3.select("#Z" + d.key.charAt(1) + "-real").property("value", z.x);
+    d3.select("#Z" + d.key.charAt(1) + "-imaginary").property("value", z.y);
+    vectorsData["Z" + d.key.charAt(1)].x = z.x;
+    vectorsData["Z" + d.key.charAt(1)].y = z.y;
+    calculateSequenceImpedances(vectorsData);
+    var max = Number.NEGATIVE_INFINITY;
+  
+    var allPhases = ["A","B","C"]
+    for (let i = 0; i < 3; i++) {
+      var magnitude = Math.max( Math.abs(vectorsData["I"+allPhases[i]].x), Math.abs(vectorsData["I"+allPhases[i]].y),
+                                Math.abs(vectorsData["V"+allPhases[i]].x), Math.abs(vectorsData["V"+allPhases[i]].y),
+                                Math.abs(vectorsData["Z"+allPhases[i]].x), Math.abs(vectorsData["Z"+allPhases[i]].y));
+  
+      max = Math.max(max, magnitude);}
+    
+    maxStatus = max;
+    xScale.domain([-max, max]); // new maximum domain value is now 200
+    yScale.domain([-max, max]);
+    mainGroup
+      .select(".x-axis") // select your axis again
+      .transition() // add a transition if you want
+      .duration(1000)
+      .call(xAxis);
+    mainGroup
+      .select(".y-axis") // select your axis again
+      .transition() // add a transition if you want
+      .duration(1000)
+      .call(yAxis);
+    updateMainVisualization("IA");
+    updateMainVisualization("IB");
+    updateMainVisualization("IC");
+    updateMainVisualization("VA");
+    updateMainVisualization("VB");
+    updateMainVisualization("VC");
+    updateMainVisualization("ZA");
+    updateMainVisualization("ZB");
+    updateMainVisualization("ZC");
+    }
   return vectorsData;
 }
 
@@ -128,6 +167,39 @@ function dragstarted(event, d) {
   d3.select(this).raise().classed("active", true);
 }
 function dragended(event, d) {
+  var max = Number.NEGATIVE_INFINITY;
+  
+  var allPhases = ["A","B","C"]
+  for (let i = 0; i < 3; i++) {
+    var magnitude = Math.max( Math.abs(vectorsData["I"+allPhases[i]].x), Math.abs(vectorsData["I"+allPhases[i]].y),
+                              Math.abs(vectorsData["V"+allPhases[i]].x), Math.abs(vectorsData["V"+allPhases[i]].y),
+                              Math.abs(vectorsData["Z"+allPhases[i]].x), Math.abs(vectorsData["Z"+allPhases[i]].y));
+    console.log("mag",magnitude);
+    max = Math.max(max, magnitude);}
+  
+  maxStatus = max;
+  xScale.domain([-max, max]); // new maximum domain value is now 200
+  yScale.domain([-max, max]);
+  mainGroup
+    .select(".x-axis") // select your axis again
+    .transition() // add a transition if you want
+    .duration(1000)
+    .call(xAxis);
+  mainGroup
+    .select(".y-axis") // select your axis again
+    .transition() // add a transition if you want
+    .duration(1000)
+    .call(yAxis);
+  updateMainVisualization("IA");
+  updateMainVisualization("IB");
+  updateMainVisualization("IC");
+  updateMainVisualization("VA");
+  updateMainVisualization("VB");
+  updateMainVisualization("VC");
+  updateMainVisualization("ZA");
+  updateMainVisualization("ZB");
+  updateMainVisualization("ZC");
+
   d3.select(this).classed("active", false);
 }
 
@@ -236,7 +308,7 @@ function updateImpedances(vectorsData, keyTobeUptaded) {
 function calculateSequenceImpedances(vectorsData) {
   const a = { x: -0.5, y: 0.87 };
   const a2 = C_.complexMultiplication(a, a);
-  console.log("is it ever in?");
+
   vectorsData.Z0.x = C_.complexDivision(
     C_.complexAdd3(vectorsData.ZA, vectorsData.ZB, vectorsData.ZC),
     { x: 3, y: 0 }
