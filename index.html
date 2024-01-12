@@ -6,10 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Three-Phase Electrical System Visualization</title>
 	<link rel="stylesheet" type="text/css" href="style - Cópia.css">
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<script src="d3.v7.min.js"></script>
 </head>
 
-<body>
+<body class="dark-mode">
+	<button id="toggle-button"><i type="solid" class='bx bxs-sun'></i></button>
 	<div id="main-container">
 		<p class="pageTitle">Impedance relationship to Voltage and Current (p.u.)</p>
 		<div id="first-row">
@@ -19,14 +21,29 @@
 		</div>
 	</div>
 	<script>
-		// Define dimensions and configurations
+		document.getElementById('toggle-button').addEventListener('click', function () {
+			var body = document.body;
+
+			if (body.classList.contains('dark-mode')) {
+				body.classList.remove('dark-mode');
+				body.classList.add('light-mode');
+				d3.select("#rectFrame").style("stroke", "black")
+				document.getElementsByClassName("bxs-sun")[0].classList.remove("bxs-sun");
+				document.getElementsByClassName("bx")[0].classList.add("bxs-moon");
+			} else {
+				body.classList.remove('light-mode');
+				body.classList.add('dark-mode');
+				d3.select("#rectFrame").style("stroke", "white")
+				document.getElementsByClassName("bxs-moon")[0].classList.remove("bxs-moon");
+				document.getElementsByClassName("bx")[0].classList.add("bxs-sun");
+			}
+		});
+		var maxStatus = 2;
 		var visualizationElement = d3.select("#visualization");
 
 		const margin = { top: 20, right: 20, bottom: 20, left: 20 };
 		const boundingRect = document.getElementById("visualization");
-		const svgWidth = visualizationElement._groups[0][0].clientWidth - margin.left - margin.right;
-		const svgHeight = visualizationElement._groups[0][0].clientHeight - margin.top - margin.bottom;
-		console.log("show values", svgWidth, svgHeight, "min", Math.min(svgWidth, svgHeight));
+		const svgWidth = Math.min(visualizationElement._groups[0][0].clientWidth - margin.left - margin.right, window.innerHeight + visualizationElement._groups[0][0].clientHeight - margin.top - margin.bottom - document.getElementsByClassName("pageTitle")[0].clientHeight);
 		const arrowSize = 8;
 		const colors = { A: 'red', B: 'gold', C: 'blue', Z0: "darkgrey", Z1: "limegreen", Z2: "magenta" };
 
@@ -46,9 +63,10 @@
 			.attr('height', svgWidth + margin.top + margin.bottom)
 			.attr('width', svgWidth + margin.left + margin.right)
 			.attr('transform', `translate(${margin.left / 2}, ${margin.top / 2})`)
-			.style('stroke', 'black')
+			.style('stroke', 'white')
 			.style('fill', 'none')
-			.style('stroke-width', '1px');
+			.style('stroke-width', '1px')
+			.attr("id", "rectFrame");
 		svg.append("defs").selectAll("marker")
 			.data("markc-arc")
 			.enter().append("marker")
@@ -77,10 +95,12 @@
 		var yAxis = d3.axisLeft(yScale);
 
 		mainGroup.append("g")
+			.attr("class", "x-axis")
 			.attr("transform", "translate(" + margin.left + "," + svgWidth / 2 + ")")
 			.call(xAxis);
 
 		mainGroup.append("g")
+			.attr("class", "y-axis")
 			.attr("transform", "translate(" + svgWidth / 2 + "," + margin.top + ")")
 			.call(yAxis);
 
